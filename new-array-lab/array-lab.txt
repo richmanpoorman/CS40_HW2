@@ -2,10 +2,10 @@
 
 
 +--------------------------------------------------------+
-|Keeper of the record:                                   |
+|Keeper of the record: Matthew Wong (mwong14)            |
 |--------------------------------------------------------|
 | Other group member(s):                                 |
-|                                                        |
+| Ivi Fung (sfung02)                                     |
 |                                                        |
 |                                                        |
 +--------------------------------------------------------+
@@ -22,42 +22,63 @@ interface for values that users store in your collection.
 1A: Briefly define the terms "boxed" and "unboxed" as used for these
     interfaces (i.e., help us be sure you know which is which!):
 
+Boxed: 
+    The client is responsible for allocating the memory, as the boxed container
+only contains the pointer to the data. Each element is just a pointer 
+to the data, vs being the actual location that the data is stored in.
+The data can outlive the container, as the data in the pointer is still
+preserved even when the container is deleted. 
+Thus, the client must deallocate the memory. 
+When you resize, the pointers are still valid, as the location of the data
+hasn't changed. 
 
-
-
+Unboxed:
+    The data is directly stored into the container. The memory is allocated
+by the container when the container is created. This means that the memory 
+is also deallocated when the container is destroyed, so the data can not 
+live on after the container is destroyed (the data is tied to the container).
+When you resize, the pointers move around, because the pointers are 
+tied to the container, which is now in a different location. 
 
 
 1B: List two (or more) advantages of the boxed representation.
 
+    1) The boxed representation can allow for data to outlive the container.
+This allows you to use the containers for algorithms, as the data is not 
+tied to the containers; an example would be using a stack for dfs,
+as once you are done with the stack, you wouldn't want to delete the memory. 
+This also allows for data to be passed along easily, because you don't care 
+what container that the data came from (it doesn't get tied to the container).
 
-
-
-
-
-
+    2) When resizing the container, the client doesn't need to worry about 
+pointer becoming invalid as the actual location data has not changed.
+This makes memory management easier, pointers already gotten will not 
+become invalid when resizing (so those pointers can be freely accessed). 
 
 1C: List two (or more) advantages of an unboxed representation.
 
+    1) Client does not have to worry about deallocating, 
+as the container does it for them; this makes memory leaks 
+harder to get. 
 
-
-
-
-
-
+    2) Easier to work with, as there is no extra layer of pointer 
+syntax, as the items are accessed directly. This means that the client 
+doesn't have to cast from (void *) which could create wrong type errors 
+that the compiler won't catch (aka it adds type checking) and there 
+doesn't have to be any of the pointer dereferencing in to get to the data, 
+making it easier to work with. 
 
 1D: Look at the interface to UArray (a link to an interface
     summary is at the start of the lab instructions). Discuss the 
     methods that show the use of the unboxed style. Why, for example, 
     does UArray_new take both a number of elements and an element size? 
 
-
-
-
-
-
-
-
-
+    UArray_new takes both the number of elements and the element size because 
+it needs to know how many bytes it needs to allocate. So it multiplies length 
+times size. 
+    
+    UArray has both UArray_length and UArray_size. The UArray_length returns 
+the number of elements and UArray_size is the number of bytes. 
 
 
 PART 2: 2D Arrays from 1D Arrays
@@ -69,13 +90,12 @@ PART 2: 2D Arrays from 1D Arrays
     one-dimensional arrays would you create? If the user asked to
     store a value in cell [3,6] where would it go?
 
-
-
-
-
-
-
-
+You start by making a UArray that stores UArrays. First allocate the space by 
+doing (num of columns) * (num of rows) * (size of data). For example,
+making the 5 x 7 first frees (5 * 7 * (size of data)) for the UArray. 
+Then, to get the stored value in [3, 6] you would do
+UArray_get(UArray_get(arr, 3), 6); as the UArray stores the columns, which 
+are UArrays which stores the value of the column in the given row. 
 
 2B. Another approach is to use a single one-dimensional array and to
     put all the elements of the 2D array into that. Again, assuming
@@ -83,22 +103,15 @@ PART 2: 2D Arrays from 1D Arrays
     for the index in the 2D array where a value [x,y] would go in the
     1D array.
 
-
-
-
-
-
+You start by making a 1D UArray which directly stores the values, with 
+space allocated being (num of columns) * (num of rows) * (size of data).
+Also store the size of the array by keeping the number of rows and the 
+number of columns. Then each data is stored int "blocks" with the 
+rows just being next to each other. To get [x, y] in a 7x5, you would do 
+UArray_get(arr, x * (num of rows) + y), where the num of rows is 5. 
 
 
 2C. (optional) is there another mapping that would work as well?
-
-
-
-
-
-
-
-
 
 
 
@@ -110,11 +123,32 @@ PART 3: Designing the UArray2 Interface
     of the UArray2 interface from reading useuarray2.c and from running
     correct_useuarray2.
 
+Things that it can do:
 
+UArray2_at(UArray2_T arr, int col, int row) = (data at [col, row])
+    Gets the elements at a given location in the 2D array 
 
+UArray2_new(int width, int height, int elementSize) = (new UArray2_T)
+    Creates a new unboxed 2D array 
+UArray2_free(UArray2_T *arr) = (void)
+    Frees the UArray2_T stored at the address, and set it to null
 
+UArray2_height(UArray2_T arr) = (height int)
+    Gets the height of the UArray2_T
+UArray2_width(UArray2_T arr) = (width int)
+    Gets the width of the UArray2_T
+UArray2_size(UArray2_T arr) = (size of element)
+    Gets the byte count of the element types 
 
+UArray2_map_col_major(UArray2_T arr, 
+    void f(int col, int row, UArray2_T a, void *elem, void *cl), void *cl)
 
+    Traverse in columnn major fashion, applying the function f to each element
 
+UArray2_map_row_major(UArray2_T arr, 
+    void f(int col, int row, UArray2_T a, void *elem, void *cl), void *cl)
 
+    Traverse in row major fashion, applying the function f to each element
 
+- Also learned that the one-array implemenetation is superior. 
+- Also learned that UArray2_T is unboxed. 

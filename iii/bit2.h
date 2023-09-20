@@ -33,7 +33,7 @@ void Bit2_free(Bit2_T *bit2Pointer);
 /* 
  *  Name:      : Bit2_get
  *  Purpose    : Get the bit at (col, row)
- *  Parameters : (Bit2_T) The 2D array where the data is at
+ *  Parameters : (Bit2_T) The 2D array where the data is stored
  *               (int) The column that the data is located at in the 2D array;
  *               (int) The row that the data is located 
  *  Return     : (int) Returns 0 if the bit is 0 and 1 if the bit is 1
@@ -91,7 +91,7 @@ int Bit2_height(Bit2_T bit2);
  *                  parameters that the column, row, 2D array,
  *                  the data value, and a pointer to an accumulator
  *                  variable
- *               (void *) The pointer to the accumulator in it's initial state
+ *               (void *) The pointer to the accumulator in its initial state
  *  Return     : None
  *  Notes      : This is a mapping function
  */
@@ -108,7 +108,7 @@ void Bit2_map_col_major(Bit2_T bit2,
  *                  parameters that the column, row, 2D array,
  *                  the data value, and a pointer to an accumulator
  *                  variable
- *               (void *) The pointer to the accumulator in it's initial state
+ *               (void *) The pointer to the accumulator in its initial state
  *  Return     : None
  *  Notes      : This is a mapping function
  */

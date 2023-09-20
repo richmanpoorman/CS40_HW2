@@ -40,7 +40,7 @@ void UArray2_free(UArray2_T *uArray2Pointer);
  *  Name:      : UArray2_at
  *  Purpose    : Get the pointer to the element at (col, row) 
  *               for setting and getting
- *  Parameters : (UArray2_T) The 2D array where the data is at
+ *  Parameters : (UArray2_T) The 2D array where the data is stored
  *               (int) The column that the data is located at in the 2D array;
  *               (int) The row that the data is located 
  *  Return     : (void *) The pointer to the data location at the given index
@@ -91,7 +91,7 @@ int UArray2_size(UArray2_T uArray2);
  *                  parameters that the column, row, 2D array,
  *                  pointer to the data value, and a pointer to an accumulator
  *                  variable
- *               (void *) The pointer to the accumulator in it's initial state
+ *               (void *) The pointer to the accumulator in its initial state
  *  Return     : None
  *  Notes      : This is a mapping function
  */
@@ -108,7 +108,7 @@ void UArray2_map_col_major(UArray2_T uArray2,
  *                  parameters that the column, row, 2D array,
  *                  pointer to the data value, and a pointer to an accumulator
  *                  variable
- *               (void *) The pointer to the accumulator in it's initial state
+ *               (void *) The pointer to the accumulator in its initial state
  *  Return     : None
  *  Notes      : This is a mapping function
  */

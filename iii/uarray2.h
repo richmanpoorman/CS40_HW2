@@ -1,11 +1,13 @@
-
+/* 
+ *   Name       : uarray2.h
+ *   Assignment : CS40 Homework 2 (iii)
+ *   Purpose    : Represents a 2-dimensional array of data of any type
+ *   Editors    : Matthew Wong (mwong14), Ivi Fung (sfung02)
+ */
 
 #ifndef UARRAY2_H_
 #define UARRAY2_H_
 
-/* 
- *  
- */
 typedef struct UArray2_T *UArray2_T;
 
 /* 

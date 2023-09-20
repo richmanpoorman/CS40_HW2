@@ -42,7 +42,7 @@ void UArray2_free(UArray2_T *uArray2Pointer);
  *               for setting and getting
  *  Parameters : (UArray2_T) The 2D array where the data is at
  *               (int) The column that the data is located at in the 2D array;
- *               (int) The row that the data is loacated 
+ *               (int) The row that the data is located 
  *  Return     : (void *) The pointer to the data location at the given index
  *  Notes      : Does not check if data has previously been set there or not;
  *               only gives the pointer to the data
@@ -88,7 +88,7 @@ int UArray2_size(UArray2_T uArray2);
  *               bottom of the column
  *  Parameters : (UArray2_T) The 2D array with the elements;
  *               (function) the function to apply to every element, which has
- *                  parameters that the column, row, 2D array
+ *                  parameters that the column, row, 2D array,
  *                  pointer to the data value, and a pointer to an accumulator
  *                  variable
  *               (void *) The pointer to the accumulator in it's initial state
@@ -105,7 +105,7 @@ void UArray2_map_col_major(UArray2_T uArray2,
  *               row by row, from left of the row to the right of the row
  *  Parameters : (UArray2_T) The 2D array with the elements;
  *               (function) the function to apply to every element, which has
- *                  parameters that the column, row, 2D array
+ *                  parameters that the column, row, 2D array,
  *                  pointer to the data value, and a pointer to an accumulator
  *                  variable
  *               (void *) The pointer to the accumulator in it's initial state

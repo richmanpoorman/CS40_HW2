@@ -17,6 +17,7 @@ typedef struct Bit2_T *Bit2_T;
  *               (int) The height of the 2D array;
  *  Return     : (Bit2_T) An array that can hold the bits
  *  Notes      : Will CRE on failure to allocate memory
+ *               Will CRE if width, height, or size are negative
  */
 Bit2_T Bit2_new(int width, int height);
 

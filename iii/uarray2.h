@@ -20,6 +20,7 @@ typedef struct UArray2_T *UArray2_T;
  *  Return     : (UArray2_T) An array that can hold the new data
  *  Notes      : Can only hold one type of data, but won't check
  *               Will CRE on failure to allocate memory
+ *               Will CRE if width, height, or size are negative, or size is 0
  */
 UArray2_T UArray2_new(int width, int height, int size);
 

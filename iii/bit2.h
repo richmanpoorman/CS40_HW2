@@ -44,7 +44,7 @@ void Bit2_free(Bit2_T *bit2Pointer);
  *               to any value;
  *               CRE when out-of-bounds 
  */
-int Bit2_get(Bit2_T bit2, int row, int col);
+int Bit2_get(Bit2_T bit2, int col, int row);
 
 /* 
  *  Name:      : Bit2_put
@@ -62,7 +62,7 @@ int Bit2_get(Bit2_T bit2, int row, int col);
  *               CRE when out-of-bounds
  *               CRE when data is not 0 or 1
  */
-void Bit2_put(Bit2_T bit2, int row, int col, int data);
+void Bit2_put(Bit2_T bit2, int col, int row, int data);
 
 /* 
  *  Name:      : Bit2_width
@@ -89,7 +89,7 @@ int Bit2_height(Bit2_T bit2);
  *               bottom of the column
  *  Parameters : (Bit2_T) The 2D array with the bits;
  *               (function) the function to apply to every bit, which has
- *                  parameters that the row, column, 2D array,
+ *                  parameters that the column, row, 2D array,
  *                  the data value, and a pointer to an accumulator
  *                  variable
  *               (void *) The pointer to the accumulator in its initial state
@@ -106,7 +106,7 @@ void Bit2_map_col_major(Bit2_T bit2,
  *               row by row, from left of the row to the right of the row
  *  Parameters : (Bit2_T) The 2D array with the bits;
  *               (function) the function to apply to every bit, which has
- *                  parameters that the row, column, 2D array,
+ *                  parameters that the column, row, 2D array,
  *                  the data value, and a pointer to an accumulator
  *                  variable
  *               (void *) The pointer to the accumulator in its initial state

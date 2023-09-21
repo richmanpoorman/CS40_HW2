@@ -10,6 +10,7 @@
 #include <stdbool.h>
 #include <assert.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 
 typedef struct UArray2_T {
@@ -23,25 +24,25 @@ typedef struct UArray2_T {
  *  Name:      : UArray2_getKey
  *  Purpose    : Maps the 2D array indicies to the 1D array index
  *  Parameters : (UArray2_T) The UArray2_T to get the index in the 1D array;
- *               (int) The column of the data point in the 2D array;
+ *               (int) The row of the data point in the 2D array;
  *               (int) The column of the data point in the 2D array;
  *  Return     : (int) The index in the underlying 1D array
  *  Notes      : Meant only for private use (not client use);
  *               Will CRE if uArray2 is NULL
  */
-int UArray2_getKey(UArray2_T uArray2, int col, int row);
+int UArray2_getKey(UArray2_T uArray2, int row, int col);
 
 /* 
  *  Name:      : UArray2_isInBounds
  *  Purpose    : Checks if the values are within the bounds of the 2D array
  *  Parameters : (UArray2_T) The UArray2_T to check within the bounds of;
- *               (int) The column of the data point in the 2D array;
+ *               (int) The row of the data point in the 2D array;
  *               (int) The column of the data point in the 2D array;
  *  Return     : (bool) If the data is within the bounds or not
  *  Notes      : Meant only for private use (not client use);
  *               Will CRE if uArray2 is NULL
  */
-bool UArray2_isInBounds(UArray2_T uArray2, int col, int row);
+bool UArray2_isInBounds(UArray2_T uArray2, int row, int col);
 
 /* 
  *  Name:      : UArray2_new
@@ -72,19 +73,19 @@ void UArray2_free(UArray2_T *uArray2Pointer);
 
 /* 
  *  Name:      : UArray2_at
- *  Purpose    : Get the pointer to the element at (col, row) 
+ *  Purpose    : Get the pointer to the element at (row, col) 
  *               for setting and getting
  *  Parameters : (UArray2_T) The 2D array where the data is stored
+ *               (int) The row that the data is located;
  *               (int) The column that the data is located at in the 2D array;
- *               (int) The row that the data is located 
  *  Return     : (void *) The pointer to the data location at the given index
  *  Notes      : Does not check if data has previously been set there or not;
  *               only gives the pointer to the data
- *               Undefined behavior before setting the pointer to (col, row)
+ *               Undefined behavior before setting the pointer to (row, col)
  *               to any value;
  *               CRE when out-of-bounds 
  */
-void *UArray2_at(UArray2_T uArray2, int col, int row);
+void *UArray2_at(UArray2_T uArray2, int row, int col);
 
 /* 
  *  Name:      : UArray2_width
@@ -122,7 +123,7 @@ int UArray2_size(UArray2_T uArray2);
  *               bottom of the column
  *  Parameters : (UArray2_T) The 2D array with the elements;
  *               (function) the function to apply to every element, which has
- *                  parameters that the column, row, 2D array,
+ *                  parameters that the row, column, 2D array,
  *                  pointer to the data value, and a pointer to an accumulator
  *                  variable
  *               (void *) The pointer to the accumulator in its initial state
@@ -139,7 +140,7 @@ void UArray2_map_col_major(UArray2_T uArray2,
  *               row by row, from left of the row to the right of the row
  *  Parameters : (UArray2_T) The 2D array with the elements;
  *               (function) the function to apply to every element, which has
- *                  parameters that the column, row, 2D array,
+ *                  parameters that the row, column, 2D array,
  *                  pointer to the data value, and a pointer to an accumulator
  *                  variable
  *               (void *) The pointer to the accumulator in its initial state
@@ -151,13 +152,13 @@ void UArray2_map_row_major(UArray2_T uArray2,
                            void *cl);
 
 
-int UArray2_getKey(UArray2_T uArray2, int col, int row) {
+int UArray2_getKey(UArray2_T uArray2, int row, int col) {
         return row * uArray2 -> height + col; 
 }
 
-bool UArray2_isInBounds(UArray2_T uArray2, int col, int row) {
+bool UArray2_isInBounds(UArray2_T uArray2, int row, int col) {
         return row >= 0 && col >= 0 && 
-               row < uArray2 -> width && col < uArray2 -> height;
+               row < UArray2_width(uArray2) && col < UArray2_height(uArray2);
 }
 
 UArray2_T UArray2_new(int width, int height, int size) {
@@ -187,11 +188,11 @@ void UArray2_free(UArray2_T *uArray2Pointer) {
         *uArray2Pointer = NULL;
 }
 
-void *UArray2_at(UArray2_T uArray2, int col, int row) {
+void *UArray2_at(UArray2_T uArray2, int row, int col) {
         assert(uArray2 != NULL);
-        assert(UArray2_isInBounds(uArray2, col, row));
+        assert(UArray2_isInBounds(uArray2, row, col));
 
-        return UArray_at(uArray2 -> data, UArray2_getKey(uArray2, col, row));
+        return UArray_at(uArray2 -> data, UArray2_getKey(uArray2, row, col));
 }
 
 int UArray2_width(UArray2_T uArray2) {
@@ -218,8 +219,8 @@ void UArray2_map_col_major(UArray2_T uArray2,
 
         for (int col = 0; col < height; col++) {
                 for (int row = 0; row < width; row++) {
-                        void *valuePointer = UArray2_at(uArray2, col, row);
-                        apply(col, row, uArray2, valuePointer, cl);
+                        void *valuePointer = UArray2_at(uArray2, row, col);
+                        apply(row, col, uArray2, valuePointer, cl);
                 }
         }
 }
@@ -233,8 +234,8 @@ void UArray2_map_row_major(UArray2_T uArray2,
 
         for (int row = 0; row < width; row++) {
                 for (int col = 0; col < height; col++) {
-                        void *valuePointer = UArray2_at(uArray2, col, row);
-                        apply(col, row, uArray2, valuePointer, cl);
+                        void *valuePointer = UArray2_at(uArray2, row, col);
+                        apply(row, col, uArray2, valuePointer, cl);
                 }
         }
 }

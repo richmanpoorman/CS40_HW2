@@ -54,7 +54,7 @@ int Bit2_get(Bit2_T bit2, int col, int row);
  *               (int) The column that the data is located at in the 2D array;
  *               (int) The row that the data is loacated 
  *               (int) The value to set the bit to
- *  Return     : None
+ *  Return     : (int) The previous value of the bit
  *  Notes      : Does not check if data has previously been set there or not;
  *               only gives the pointer to the data
  *               Undefined behavior before setting the pointer to (col, row)
@@ -62,7 +62,7 @@ int Bit2_get(Bit2_T bit2, int col, int row);
  *               CRE when out-of-bounds
  *               CRE when data is not 0 or 1
  */
-void Bit2_put(Bit2_T bit2, int col, int row, int data);
+int Bit2_put(Bit2_T bit2, int col, int row, int data);
 
 /* 
  *  Name:      : Bit2_width

@@ -87,7 +87,7 @@ int Bit2_get(Bit2_T bit2, int col, int row);
  *               (int) The column that the data is located at in the 2D array;
  *               (int) The row that the data is loacated 
  *               (int) The value to set the bit to
- *  Return     : None
+ *  Return     : (int) The previous value of the bit
  *  Notes      : Does not check if data has previously been set there or not;
  *               only gives the pointer to the data
  *               Undefined behavior before setting the pointer to (col, row)
@@ -95,7 +95,7 @@ int Bit2_get(Bit2_T bit2, int col, int row);
  *               CRE when out-of-bounds
  *               CRE when data is not 0 or 1
  */
-void Bit2_put(Bit2_T bit2, int col, int row, int data);
+int Bit2_put(Bit2_T bit2, int col, int row, int data);
 
 /* 
  *  Name:      : Bit2_width
@@ -166,10 +166,9 @@ bool Bit2_isInBounds(Bit2_T bit2, int col, int row) {
 Bit2_T Bit2_new(int width, int height) {
         assert(width >= 0);
         assert(height >= 0);
-        assert(size > 0);
 
         Bit2_T new2DArray = ALLOC(sizeof(*new2DArray));
-        Bit_T  data       = UArray_new(width * height, size);
+        Bit_T  data       = Bit_new(width * height);
 
         assert(new2DArray != NULL);
 
@@ -184,7 +183,7 @@ void Bit2_free(Bit2_T *bit2Pointer) {
         assert(bit2Pointer  != NULL);
         assert(*bit2Pointer != NULL);
 
-        UArray_free(&((*bit2Pointer) -> data));
+        Bit_free(&((*bit2Pointer) -> data));
         FREE(*bit2Pointer);
         *bit2Pointer = NULL;
 }
@@ -194,9 +193,9 @@ int Bit2_get(Bit2_T bit2, int col, int row) {
         return Bit_get(bit2 -> data, Bit2_getKey(bit2, col, row));
 }
 
-void Bit2_put(Bit2_T bit2, int col, int row, int data) {
+int Bit2_put(Bit2_T bit2, int col, int row, int data) {
         assert(bit2 != NULL);
-        return Bit_set(bit2 -> data, Bit2_getKey(bit2, col, row), data);
+        return Bit_put(bit2 -> data, Bit2_getKey(bit2, col, row), data);
 }
 
 int Bit2_width(Bit2_T bit2) {

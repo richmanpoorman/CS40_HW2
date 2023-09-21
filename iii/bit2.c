@@ -122,7 +122,7 @@ int Bit2_height(Bit2_T bit2);
  *               bottom of the column
  *  Parameters : (Bit2_T) The 2D array with the bits;
  *               (function) the function to apply to every bit, which has
- *                  parameters that the column, row, 2D array,
+ *                  parameters for the column, row, 2D array,
  *                  the data value, and a pointer to an accumulator
  *                  variable
  *               (void *) The pointer to the accumulator in its initial state
@@ -139,7 +139,7 @@ void Bit2_map_col_major(Bit2_T bit2,
  *               row by row, from left of the row to the right of the row
  *  Parameters : (Bit2_T) The 2D array with the bits;
  *               (function) the function to apply to every bit, which has
- *                  parameters that the column, row, 2D array,
+ *                  parameters for the column, row, 2D array,
  *                  the data value, and a pointer to an accumulator
  *                  variable
  *               (void *) The pointer to the accumulator in its initial state

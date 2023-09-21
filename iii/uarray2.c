@@ -123,7 +123,7 @@ int UArray2_size(UArray2_T uArray2);
  *               bottom of the column
  *  Parameters : (UArray2_T) The 2D array with the elements;
  *               (function) the function to apply to every element, which has
- *                  parameters that the column, row, 2D array,
+ *                  parameters for the column, row, 2D array,
  *                  pointer to the data value, and a pointer to an accumulator
  *                  variable
  *               (void *) The pointer to the accumulator in its initial state
@@ -140,7 +140,7 @@ void UArray2_map_col_major(UArray2_T uArray2,
  *               row by row, from left of the row to the right of the row
  *  Parameters : (UArray2_T) The 2D array with the elements;
  *               (function) the function to apply to every element, which has
- *                  parameters that the column, row, 2D array,
+ *                  parameters for the column, row, 2D array,
  *                  pointer to the data value, and a pointer to an accumulator
  *                  variable
  *               (void *) The pointer to the accumulator in its initial state
@@ -219,7 +219,7 @@ void UArray2_map_col_major(UArray2_T uArray2,
         int height = UArray2_height(uArray2);
         int width  = UArray2_width(uArray2);
 
-        for (int col = 0; col < width; col++) {
+        for (int col = 0; col < width; col++) { 
                 for (int row = 0; row < height; row++) {
                         void *valuePointer = UArray2_at(uArray2, col, row);
                         apply(col, row, uArray2, valuePointer, cl);

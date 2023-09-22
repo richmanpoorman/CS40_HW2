@@ -10,9 +10,25 @@
 
 #ifndef SUDOKU_H_
 #define SUDOKU_H_
-
+/* 
+ *  Name:      : SudokuChecker_makeBoard
+ *  Purpose    : Turns the given PGM file sudoku board into an UArray2_T board
+ *  Parameters : (FILE *) The opened file with the sudoku board
+ *  Return     : (UArray2_T) A 9x9 2D array with the sudoku board information
+ *  Notes      : Will CRE if it is not a graymap PGM;
+ *               If max value isn't 9 or the PGM size is not (9, 9)
+ *                      it will return NULL;
+ *               Client needs to free the UArray2_T and close the file
+ */
 UArray2_T SudokuChecker_makeBoard(FILE* sudokuFile);
 
-int SudokuChecker_checkSudoku(UArray2_T sudokuBoard);
+/* 
+ *  Name:      : SudokuChecker_checkSudoku
+ *  Purpose    : Checks if the given 2D Array is a valid sudoku board
+ *  Parameters : (UArray2_T) The sudoku board as a 2D array
+ *  Return     : (bool) True if the sudoku board is valid, false otherwise
+ *  Notes      : Assumes that the 2D array given is a 9 x 9 with max value 9
+ */
+bool SudokuChecker_checkSudoku(UArray2_T sudokuBoard);
 
 #endif

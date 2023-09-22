@@ -10,7 +10,8 @@ bool sudoku(FILE *sudokuFile) {
         if (board == NULL) {
                 return false;
         }
-        bool      check = SudokuChecker_checkSudoku(board);
+        
+        bool check = SudokuChecker_checkSudoku(board);
         UArray2_free(&board);
         return check;
 }

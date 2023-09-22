@@ -54,7 +54,7 @@ all: sudoku unblackedges my_useuarray2 my_usebit2
 
 ## Linking step (.o -> executable program)
 
-sudoku: sudoku.o uarray2.o sudokuChecker.o
+sudoku: sudoku.o uarray2.o sudokuChecker2.o
 	$(CC) $(LDFLAGS) $^ -o $@ $(LDLIBS)
 
 unblackedges: unblackedges.o bit2.o

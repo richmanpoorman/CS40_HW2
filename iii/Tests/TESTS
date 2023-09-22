@@ -1,0 +1,16 @@
+"White space in the raster section is ignored."
+"You can put any junk you want after the raster, 
+if it starts with a white space character."
+- P1 Spec (https://linux.die.net/man/5/pbm)
+
+Spiral Test
+        Wanted to make sure that the user could "double back"
+        Also, needs to be able to handle junk after the raster
+
+Branch Test 
+        Wanted to test being able to "go down" multiple paths at once
+        Also, needs to be able to handle strange whitespace
+
+Line Test
+        Single line, to test bounds
+        Also, needs to be able to handle both strange whitespace and junk

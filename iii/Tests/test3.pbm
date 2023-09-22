@@ -1,0 +1,12 @@
+P1 
+# Line Test by sfung02 and mwong14 
+7 1 
+0            
+1
+0 0   
+1          1 1
+this is really messed up
+I am sorry to do this to you
+White space in the raster section is ignored.
+You can put any junk you want after the raster, 
+if it starts with a white space character.

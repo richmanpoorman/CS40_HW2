@@ -7,7 +7,11 @@
 
 bool sudoku(FILE *sudokuFile) {
         UArray2_T board = SudokuChecker_makeBoard(sudokuFile);
+        if (board == NULL) {
+                return false;
+        }
         bool      check = SudokuChecker_checkSudoku(board);
+        UArray2_free(&board);
         return check;
 }
 

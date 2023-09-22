@@ -67,8 +67,14 @@ bool SudokuChecker_checkSudoku(UArray2_T sudokuBoard) {
 }
 
 bool SudokuChecker_checkRows(UArray2_T sudokuBoard) {
-        (void) sudokuBoard;
-        return false;
+        for (int row = 0; row < 9; row++) {
+                bool rowValid = SudokuChecker_checkSingleRow(
+                                        sudokuBoard, row);
+                if (!rowValid) {
+                        return false;
+                }
+        }
+        return true;
 }
 
 bool SudokuChecker_checkSingleRow(UArray2_T sudokuBoard, int row) {
@@ -76,15 +82,24 @@ bool SudokuChecker_checkSingleRow(UArray2_T sudokuBoard, int row) {
         int width = UArray2_width(sudokuBoard);
         for (int col = 0; col < width; col++) {
                 int *value = UArray2_at(sudokuBoard, col, row);
-                SudokuChecker_setFlag(*value, &flags);
+                bool isValid = SudokuChecker_setFlag(*value, &flags);
+                if (!isValid) {
+                        return false;
+                }
         }
         
         return SudokuChecker_hasAllItems(flags);
 }
 
 bool SudokuChecker_checkColumns(UArray2_T sudokuBoard) {
-        (void) sudokuBoard;
-        return false;
+        for (int col = 0; col < 9; col++) {
+                bool colValid = SudokuChecker_checkSingleColumn(
+                                        sudokuBoard, col);
+                if (!colValid) {
+                        return false;
+                }
+        }
+        return true;
 }
 
 bool SudokuChecker_checkSingleColumn(UArray2_T sudokuBoard, int col) {
@@ -92,15 +107,27 @@ bool SudokuChecker_checkSingleColumn(UArray2_T sudokuBoard, int col) {
         int height = UArray2_height(sudokuBoard);
         for (int row = 0; row < height; row++) {
                 int *value = UArray2_at(sudokuBoard, col, row);
-                SudokuChecker_setFlag(*value, &flags);
+                bool isValid = SudokuChecker_setFlag(*value, &flags);
+                if (!isValid) {
+                        return false;
+                }
         }
         
         return SudokuChecker_hasAllItems(flags);
 }
 
 bool SudokuChecker_checkBoxes(UArray2_T sudokuBoard) {
-        (void) sudokuBoard;
-        return false;
+        for (int row = 0; row < 9; row += 3) {
+                for (int col = 0; col < 9; col += 3) {
+                        bool boxValid = SudokuChecker_checkSingleBox(
+                                                sudokuBoard, col, row);
+                        if (!boxValid) {
+                                return false;
+                        }
+                }
+                
+        }
+        return true;
 }
 
 bool SudokuChecker_checkSingleBox(UArray2_T sudokuBoard, int col, int row) {
@@ -108,8 +135,12 @@ bool SudokuChecker_checkSingleBox(UArray2_T sudokuBoard, int col, int row) {
         for (int squareIndex = 0; squareIndex < 9; squareIndex++) {
                 int currRow = row + squareIndex / 3;
                 int currCol = col + squareIndex % 3;
-                int *value = UArray2_at(sudokuBoard, currCol, currRow);
-                SudokuChecker_setFlag(*value, &flags);
+                int *value  = UArray2_at(sudokuBoard, currCol, currRow);
+                
+                bool isValid = SudokuChecker_setFlag(*value, &flags);
+                if (!isValid) {
+                        return false;
+                }
         }
         
         return SudokuChecker_hasAllItems(flags);

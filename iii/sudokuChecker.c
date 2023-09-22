@@ -41,8 +41,12 @@ UArray2_T SudokuChecker_makeBoard(FILE* sudokuFile) {
         Pnmrdr_maptype fileType = data.type;
         int            width    = data.width;
         int            height   = data.height;
-
+        int            maxSize  = data.denominator;
         assert(fileType == Pnmrdr_gray);
+        
+        if (maxSize != 9 || width != 9 || height != 9) {
+                return NULL;
+        }
 
         UArray2_T board = UArray2_new(width, height, sizeof(char));
         UArray2_map_row_major(board, SudokuChecker_mapBoardElement, reader);
@@ -61,6 +65,9 @@ void SudokuChecker_mapBoardElement(int col, int row, UArray2_T board,
 }
 
 bool SudokuChecker_checkSudoku(UArray2_T sudokuBoard) {
+        if (sudokuBoard == NULL) {
+                return false;
+        }
         return SudokuChecker_checkRows(sudokuBoard) && 
                SudokuChecker_checkColumns(sudokuBoard) && 
                SudokuChecker_checkBoxes(sudokuBoard);

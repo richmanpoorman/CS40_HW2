@@ -1,6 +1,7 @@
 {
         "files.associations": {
                 "*.embeddedhtml": "html",
-                "stdbool.h": "c"
+                "stdbool.h": "c",
+                "sudokuchecker.h": "c"
         }
 }

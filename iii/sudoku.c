@@ -6,6 +6,7 @@
 #include "sudokuChecker.h"
 
 bool sudoku(FILE *sudokuFile) {
+        assert(sudokuFile != NULL);
         UArray2_T board = SudokuChecker_makeBoard(sudokuFile);
         if (board == NULL) {
                 return false;

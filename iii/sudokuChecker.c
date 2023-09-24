@@ -32,89 +32,22 @@ UArray2_T SudokuChecker_makeBoard(FILE* sudokuFile);
  */
 bool SudokuChecker_checkSudoku(UArray2_T sudokuBoard);
 
+
 /* 
  *  Name:      : SudokuChecker_mapBoardElement
- *  Purpose    : Assigns the sudoku board to the 9 x 9 2D array
- *  Parameters : 
- *  Return     : 
- *  Notes      : 
+ *  Purpose    : Mapping function that assigns the elements of the 
+ *               sudoku board to the 9 x 9 2D array
+ *  Parameters : (int) Column of current element;
+ *               (int) Row of current element;
+ *               (UArray2_T) The current sudoku board;
+ *               (void *) Pointer to the data stored at (col, row);
+ *               (void *) Pointer to accumulator;
+ *  Return     : None
+ *  Notes      : Only used as a mapping function for row-major
  */
 void SudokuChecker_mapBoardElement(int col, int row, UArray2_T board, 
                                    void *data, void *cl);
 
-/* 
- *  Name:      : 
- *  Purpose    : 
- *  Parameters : 
- *  Return     : 
- *  Notes      : 
- */
-bool SudokuChecker_checkRows(UArray2_T sudokuBoard);
-
-/* 
- *  Name:      : 
- *  Purpose    : 
- *  Parameters : 
- *  Return     : 
- *  Notes      : 
- */
-bool SudokuChecker_checkSingleRow(UArray2_T sudokuBoard, int row);
-
-/* 
- *  Name:      : 
- *  Purpose    : 
- *  Parameters : 
- *  Return     : 
- *  Notes      : 
- */
-bool SudokuChecker_checkColumns(UArray2_T sudokuBoard);
-
-/* 
- *  Name:      : 
- *  Purpose    : 
- *  Parameters : 
- *  Return     : 
- *  Notes      : 
- */
-bool SudokuChecker_checkSingleColumn(UArray2_T sudokuBoard, int col);
-
-/* 
- *  Name:      : 
- *  Purpose    : 
- *  Parameters : 
- *  Return     : 
- *  Notes      : 
- */
-bool SudokuChecker_checkBoxes(UArray2_T sudokuBoard);
-
-/* 
- *  Name:      : 
- *  Purpose    : 
- *  Parameters : 
- *  Return     : 
- *  Notes      : 
- */
-bool SudokuChecker_checkSingleBox(UArray2_T sudokuBoard, int col, int row);
-
-/* 
- *  Name:      : 
- *  Purpose    : 
- *  Parameters : 
- *  Return     : 
- *  Notes      : 
- */
-bool SudokuChecker_setFlag(int current, int *flags);
-
-/* 
- *  Name:      : 
- *  Purpose    : 
- *  Parameters : 
- *  Return     : 
- *  Notes      : 
- */
-bool SudokuChecker_hasAllItems(int flag);
-
-/* Implementation */
 UArray2_T SudokuChecker_makeBoard(FILE* sudokuFile) {
         Pnmrdr_T       reader   = Pnmrdr_new(sudokuFile);
         Pnmrdr_mapdata data     = Pnmrdr_data(reader);
@@ -136,118 +69,73 @@ UArray2_T SudokuChecker_makeBoard(FILE* sudokuFile) {
 }
 
 bool SudokuChecker_checkSudoku(UArray2_T sudokuBoard) {
-        if (sudokuBoard == NULL) {
-                return false;
+        /* 
+         *  There are 9 different rows, columns, and boxes
+         *  This is the initialization for the "sets" for each
+         *      row, column, and box
+         *  We use bitwise operators to check if it is seen
+         *  (Each binary place represents a different digit 1-9)
+         */
+        int rowFlags[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+        int colFlags[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+        int boxFlags[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+        
+        int height = UArray2_height(sudokuBoard);
+        int width  = UArray2_width(sudokuBoard);
+        for (int row = 0; row < height; row++) {
+                for (int col = 0; col < width; col++) {
+                        int *value = UArray2_at(sudokuBoard, col, row);
+   
+                        /* Checks if value is in range */
+                        if (*value < 1 || *value > 9) {
+                                return false;
+                        }
+
+                        /* Gets the corresponding box */
+                        int box = (row / 3) * 3 + col / 3;
+                        int flag = 1 << (*value - 1);
+                        
+                        /*  
+                         *  Checks if the value has been already found 
+                         *  in the corresponding row, column, or box
+                         */
+                        if ((flag & rowFlags[row]) > 0 || 
+                            (flag & colFlags[col]) > 0 || 
+                            (flag & boxFlags[box]) > 0) {
+                                return false;
+                        }
+
+                        /* If it has found it, mark as found */
+                        rowFlags[row] += flag;
+                        colFlags[col] += flag;
+                        boxFlags[box] += flag;
+                }
         }
-        return SudokuChecker_checkRows(sudokuBoard) && 
-               SudokuChecker_checkColumns(sudokuBoard) && 
-               SudokuChecker_checkBoxes(sudokuBoard);
+
+        /* 
+         *  All of digits 1-9 should have been used, so check that
+         *      all of the sets contain all of the elements
+         */ 
+        int allFlagged = (1 << 9) - 1;
+        for (int flagIndex = 0; flagIndex < 9; flagIndex++) {
+                if (rowFlags[flagIndex] != allFlagged || 
+                    colFlags[flagIndex] != allFlagged || 
+                    boxFlags[flagIndex] != allFlagged) {
+                        return false;
+                }
+        }
+
+        /* If there are no problems, then the sudoku is solved */
+        return true;
 }
 
 void SudokuChecker_mapBoardElement(int col, int row, UArray2_T board, 
                                    void *data, void *cl) {
-        Pnmrdr_T  reader       = cl;
-        char         *valuePointer = UArray2_at(board, col, row);
+        Pnmrdr_T      reader       = cl;
+        unsigned int *valuePointer = UArray2_at(board, col, row);
         unsigned int  nextSquare   = Pnmrdr_get(reader);
+        
         *valuePointer = nextSquare;
         (void) cl;
         (void) data;
-}
-
-bool SudokuChecker_checkRows(UArray2_T sudokuBoard) {
-        for (int row = 0; row < 9; row++) {
-                bool rowValid = SudokuChecker_checkSingleRow(
-                                        sudokuBoard, row);
-                if (!rowValid) {
-                        return false;
-                }
-        }
-        return true;
-}
-
-bool SudokuChecker_checkColumns(UArray2_T sudokuBoard) {
-        for (int col = 0; col < 9; col++) {
-                bool colValid = SudokuChecker_checkSingleColumn(
-                                        sudokuBoard, col);
-                if (!colValid) {
-                        return false;
-                }
-        }
-        return true;
-}
-
-bool SudokuChecker_checkBoxes(UArray2_T sudokuBoard) {
-        for (int row = 0; row < 9; row += 3) {
-                for (int col = 0; col < 9; col += 3) {
-                        bool boxValid = SudokuChecker_checkSingleBox(
-                                                sudokuBoard, col, row);
-                        if (!boxValid) {
-                                return false;
-                        }
-                }
-                
-        }
-        return true;
-}
-
-bool SudokuChecker_checkSingleRow(UArray2_T sudokuBoard, int row) {
-        int flags = 0;
-        int width = UArray2_width(sudokuBoard);
-        for (int col = 0; col < width; col++) {
-                int *value = UArray2_at(sudokuBoard, col, row);
-                bool isValid = SudokuChecker_setFlag(*value, &flags);
-                if (!isValid) {
-                        return false;
-                }
-        }
-        
-        return SudokuChecker_hasAllItems(flags);
-}
-
-bool SudokuChecker_checkSingleColumn(UArray2_T sudokuBoard, int col) {
-        int flags = 0;
-        int height = UArray2_height(sudokuBoard);
-        for (int row = 0; row < height; row++) {
-                int *value = UArray2_at(sudokuBoard, col, row);
-                bool isValid = SudokuChecker_setFlag(*value, &flags);
-                if (!isValid) {
-                        return false;
-                }
-        }
-        
-        return SudokuChecker_hasAllItems(flags);
-}
-
-bool SudokuChecker_checkSingleBox(UArray2_T sudokuBoard, int col, int row) {
-        int flags = 0;
-        for (int squareIndex = 0; squareIndex < 9; squareIndex++) {
-                int currRow = row + squareIndex / 3;
-                int currCol = col + squareIndex % 3;
-                int *value  = UArray2_at(sudokuBoard, currCol, currRow);
-                
-                bool isValid = SudokuChecker_setFlag(*value, &flags);
-                if (!isValid) {
-                        return false;
-                }
-        }
-        
-        return SudokuChecker_hasAllItems(flags);
-}
-
-bool SudokuChecker_setFlag(int value, int *flags) {
-        if (value < 1 || value > 9) {
-                return false;
-        }
-        int currFlag = 1 << (value - 1);
-        if ((currFlag & (*flags)) > 0) {
-                return false;
-        }
-        *flags += currFlag;
-        return true;
-}
-
-bool SudokuChecker_hasAllItems(int flags) {
-        
-        int allFlagsActive = (1 << 9) - 1;
-        return flags == allFlagsActive;
 }

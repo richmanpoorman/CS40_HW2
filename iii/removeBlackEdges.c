@@ -38,7 +38,6 @@ void RemoveBlackEdges_removeEdges(Bit2_T bitmap);
 /* 
  *  Name:      : RemoveBlackEdges_writeBitMap
  *  Purpose    : Writes the given bitmap to the given output file
- *               adjacent to any of the removed bits
  *  Parameters : (Bit2_T) The bitmap in a Bit2_T before processing 
  *  Return     : None
  *  Notes      : Assumes the outputFile is open, and the bitmap is processed
@@ -46,14 +45,16 @@ void RemoveBlackEdges_removeEdges(Bit2_T bitmap);
 void RemoveBlackEdges_writeBitmap(FILE *outputFile, Bit2_T bitmap);
 
 /* 
- *  Name:      : RemoveBlackEdges_writeBitMap
- *  Purpose    : Writes the given bitmap to the given output file
- *               adjacent to any of the removed bits
- *  Parameters : (Bit2_T) The bitmap in a Bit2_T before processing 
+ *  Name:      : RemoveBlackEdges_mapBitElement
+ *  Purpose    : Mapping function that assigns the elements of a file to 
+ *               to a Bit2
+ *  Parameters : (int) Column of current element;
+ *               (int) Row of current element;
+ *               (Bit2_T) The current bitmap being written;
+ *               (void *) Pointer to the data stored at (col, row);
+ *               (void *) Pointer to accumulator;
  *  Return     : None
- *  Notes      : Assumes the outputFile is open, and the bitmap is processed;
- *               Assumes that the function is only used with 
- *                      Bit2_map_row_major
+ *  Notes      : Assumes that the function is only used with Bit2_map_row_major
  */
 void RemoveBlackEdges_mapBitElement(int col, int row, Bit2_T bitmap, 
                                     int data, void *cl);

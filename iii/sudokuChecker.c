@@ -43,7 +43,8 @@ bool SudokuChecker_checkSudoku(UArray2_T sudokuBoard);
  *               (void *) Pointer to the data stored at (col, row);
  *               (void *) Pointer to accumulator;
  *  Return     : None
- *  Notes      : Only used as a mapping function for row-major
+ *  Notes      : Assumes that the function is only used with 
+ *                      UArray2_map_row_major
  */
 void SudokuChecker_mapBoardElement(int col, int row, UArray2_T board, 
                                    void *data, void *cl);

@@ -8,10 +8,31 @@ typedef struct Point {
         int row;
 } *Point;
 
+/* 
+ *  Name:      : 
+ *  Purpose    : 
+ *  Parameters : 
+ *  Return     : 
+ *  Notes      : 
+ */
 Point Point_new(int col, int row);
 
+/* 
+ *  Name:      : 
+ *  Purpose    : 
+ *  Parameters : 
+ *  Return     : 
+ *  Notes      : 
+ */
 void Point_get(Point point, int *col, int *row);
 
+/* 
+ *  Name:      : 
+ *  Purpose    : 
+ *  Parameters : 
+ *  Return     : 
+ *  Notes      : 
+ */
 void Point_free(Point *point);
 
 Point Point_new(int col, int row) {

@@ -51,13 +51,41 @@ void RemoveBlackEdges_writeBitmap(FILE *outputFile, Bit2_T bitmap);
  *               adjacent to any of the removed bits
  *  Parameters : (Bit2_T) The bitmap in a Bit2_T before processing 
  *  Return     : None
- *  Notes      : Assumes the outputFile is open, and the bitmap is processed
+ *  Notes      : Assumes the outputFile is open, and the bitmap is processed;
+ *               Assumes that the function is only used with 
+ *                      Bit2_map_row_major
  */
 void RemoveBlackEdges_mapBitElement(int col, int row, Bit2_T bitmap, 
                                     int data, void *cl);
 
+/* 
+ *  Name:      : RemoveBlackEdges_dfs
+ *  Purpose    : Does a depth first search for adjacent black pixels
+ *               and turns them white, propogating to remove 
+ *               "black edge" pixels
+ *  Parameters : (Bit2_T) The bitmap as a 2D array that has the black edges
+ *                        that need to be removed;
+ *               (int) The column of the starting position to start searching;
+ *               (int) The row of the starting position to start searching
+ *  Return     : None
+ *  Notes      : Alters the bitmap inplace
+ *               Assumes that the starting (col, row) bit is a bit that is 
+ *                      black along the edge of the image
+ */
 void RemoveBlackEdges_dfs(Bit2_T bitmap, int col, int row);
 
+/* 
+ *  Name:      : RemoveBlackEdges_mapBitToFile
+ *  Purpose    : A mapping function that writes the bitmap to a file
+ *  Parameters : (int) The column position of the bit to read from the bitmap;
+ *               (int) The row position of the bit to read from the bitmap;
+ *               (Bit2_T) The bitmap that is being read from with the 
+ *                        black edges removed;
+ *               (int) The bit data located at (col, row) in the bitmap;
+ *               (void *) The pointer to the opened output file to print to
+ *  Return     : None
+ *  Notes      : 
+ */
 void RemoveBlackEdges_mapBitToFile(int col, int row, Bit2_T bitmap, 
                                    int data, void *cl);
 

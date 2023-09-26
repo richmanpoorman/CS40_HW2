@@ -1,3 +1,10 @@
+/* 
+ *   Name       : sudoku.c
+ *   Assignment : CS40 Homework 2 (iii)
+ *   Purpose    : EXIT_SUCCESS if it is a valid sudoku, 
+ *                EXIT_FAILURE if it is not a valid sudoku
+ *   Editors    : Matthew Wong (mwong14), Ivi Fung (sfung02)
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -5,6 +12,16 @@
 #include <stdbool.h>
 #include "sudokuChecker.h"
 
+/* 
+ *  Name:      : sudoku
+ *  Purpose    : Check if the given PGM file is a valid sudoku board
+ *  Parameters : (FILE *) The PGM file with the sudoku board to check
+ *  Return     : (bool) True if the board is a valid sudoku board, 
+ *                      False otherwise
+ *  Notes      : Will CRE if no file is given;
+ *               Will CRE if the file is not a graymap PGM;
+ *                Will CRE if memory can't be allocated
+ */
 bool sudoku(FILE *sudokuFile) {
         assert(sudokuFile != NULL);
         UArray2_T board = SudokuChecker_makeBoard(sudokuFile);

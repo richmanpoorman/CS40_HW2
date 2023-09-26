@@ -30,12 +30,12 @@ Point Point_new(int col, int row);
  *  Purpose    : Get the column and row of the given point by writing 
  *               to the given inputs which are passed by reference
  *  Parameters : (Point) The point to get the position (col, row) from
- *               (int *) A pointer to the column which the function 
- *                       can write to as an output
- *                       [the pointer is used to pass by reference]
- *               (int *) A pointer to the row which the function 
- *                       can write to as an output
- *                       [the pointer is used to pass by reference]
+ *               (int *) A pointer to hold the value of the point's column. 
+ *                       The function can write to this as output, so that
+ *                       the column value is accesible to the client
+ *               (int *) A pointer to hold the value of the point's row. 
+ *                       The function can write to this as output, so that
+ *                       the row value is accesible to the client
  *  Return     : None
  *  Notes      : col and row are where the output of the data is, so
  *               column and row are passed by reference;

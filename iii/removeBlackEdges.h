@@ -12,6 +12,20 @@
 #define UNBLACKEDGE_H_
 
 /* 
+ *  Name:      : unblackedges
+ *  Purpose    : Remove the black edges of the given file
+ *  Parameters : (FILE *) The PGM file with the original image;
+ *               (FILE *) The output file to write to
+ *  Return     : None
+ *  Notes      : Will CRE if no file is given;
+ *               Will CRE if the file is not a PBM;
+ *               Will CRE if there is a memory issue;
+ *               Will CRE if couldn't make the bitmap;
+ *               Will CRE if memory can't be allocated
+ */
+void unblackedges(FILE *bitmapFile, FILE *outputFile);
+
+/* 
  *  Name:      : RemoveBlackEdges_makeBitmap
  *  Purpose    : Turns the given PBM file bitmap into an Bit2_T bitmap
  *  Parameters : (FILE *) The opened file with the bitmap
@@ -40,6 +54,6 @@ void RemoveBlackEdges_removeEdges(Bit2_T bitmap);
  *  Return     : None
  *  Notes      : Assumes the outputFile is open, and the bitmap is processed
  */
-void RemoveBlackEdges_writeBitmap(FILE *outputFile, Bit2_T bitmap);
+void RemoveBlackEdges_printBitmap(FILE *outputFile, Bit2_T bitmap);
 
 #endif

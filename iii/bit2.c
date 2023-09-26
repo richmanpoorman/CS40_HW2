@@ -61,6 +61,8 @@ Bit2_T Bit2_new(int width, int height);
  *  Return     : None
  *  Notes      : Sets the pointer data to NULL so no accidental references
  *               can be made
+ *               Will CRE if the pointer Bit2_T is null;
+ *               Will CRE if the data in the pointer is null;
  */
 void Bit2_free(Bit2_T *bit2Pointer);
 
@@ -124,7 +126,9 @@ int Bit2_height(Bit2_T bit2);
  *               (function) the function to apply to every bit, which has
  *                  parameters for the column, row, 2D array,
  *                  the data value, and a pointer to an accumulator
- *                  variable
+ *                  variable; the contract is as below:
+ *              void apply(int col, int row, Bit2_T bitmap, 
+ *                         int data, void *cl)
  *               (void *) The pointer to the accumulator in its initial state
  *  Return     : None
  *  Notes      : This is a mapping function
@@ -141,7 +145,9 @@ void Bit2_map_col_major(Bit2_T bit2,
  *               (function) the function to apply to every bit, which has
  *                  parameters for the column, row, 2D array,
  *                  the data value, and a pointer to an accumulator
- *                  variable
+ *                  variable; the contract is as below:
+ *              void apply(int col, int row, Bit2_T bitmap, 
+ *                         int data, void *cl)
  *               (void *) The pointer to the accumulator in its initial state
  *  Return     : None
  *  Notes      : This is a mapping function
@@ -190,11 +196,13 @@ void Bit2_free(Bit2_T *bit2Pointer) {
 
 int Bit2_get(Bit2_T bit2, int col, int row) {
         assert(bit2 != NULL);
+        assert(Bit2_isInBounds(bit2, col, row));
         return Bit_get(bit2 -> data, Bit2_getKey(bit2, col, row));
 }
 
 int Bit2_put(Bit2_T bit2, int col, int row, int data) {
         assert(bit2 != NULL);
+        assert(Bit2_isInBounds(bit2, col, row));
         return Bit_put(bit2 -> data, Bit2_getKey(bit2, col, row), data);
 }
 

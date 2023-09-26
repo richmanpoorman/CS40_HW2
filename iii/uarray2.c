@@ -68,6 +68,8 @@ UArray2_T UArray2_new(int width, int height, int size);
  *               Does not free up the data in the 2D array; 
  *                  use UArray2_map_col_major or UArray2_map_row_major to 
  *                  map a free function to free up all of the data
+ *               Will CRE if the pointer UArray2_T is null;
+ *               Will CRE if the data in the pointer is null;
  */
 void UArray2_free(UArray2_T *uArray2Pointer);
 
@@ -125,7 +127,10 @@ int UArray2_size(UArray2_T uArray2);
  *               (function) the function to apply to every element, which has
  *                  parameters for the column, row, 2D array,
  *                  pointer to the data value, and a pointer to an accumulator
- *                  variable
+ *                  variable; the contract is as below:
+ *              void apply(int col, int row, UArray2_T board, 
+ *                         void *data, void *cl)
+ * 
  *               (void *) The pointer to the accumulator in its initial state
  *  Return     : None
  *  Notes      : This is a mapping function
@@ -142,7 +147,9 @@ void UArray2_map_col_major(UArray2_T uArray2,
  *               (function) the function to apply to every element, which has
  *                  parameters for the column, row, 2D array,
  *                  pointer to the data value, and a pointer to an accumulator
- *                  variable
+ *                  variable; the contract is as below:
+ *               void apply(int col, int row, UArray2_T board, 
+ *                         void *data, void *cl)
  *               (void *) The pointer to the accumulator in its initial state
  *  Return     : None
  *  Notes      : This is a mapping function

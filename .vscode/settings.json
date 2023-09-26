@@ -2,6 +2,7 @@
         "files.associations": {
                 "*.embeddedhtml": "html",
                 "stdbool.h": "c",
-                "sudokuchecker.h": "c"
+                "sudokuchecker.h": "c",
+                "bit2.h": "c"
         }
 }

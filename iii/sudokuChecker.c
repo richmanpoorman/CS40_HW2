@@ -12,6 +12,18 @@
 #include <stdbool.h>
 
 /* 
+ *  Name:      : sudoku
+ *  Purpose    : Check if the given PGM file is a valid sudoku board
+ *  Parameters : (FILE *) The PGM file with the sudoku board to check
+ *  Return     : (bool) True if the board is a valid sudoku board, 
+ *                      False otherwise
+ *  Notes      : Will CRE if no file is given;
+ *               Will CRE if the file is not a graymap PGM;
+ *               Will CRE if memory can't be allocated
+ */
+bool sudoku(FILE *sudokuFile);
+
+/* 
  *  Name:      : SudokuChecker_makeBoard
  *  Purpose    : Turns the given PGM file sudoku board into an UArray2_T board
  *  Parameters : (FILE *) The opened file with the sudoku board
@@ -48,6 +60,18 @@ bool SudokuChecker_checkSudoku(UArray2_T sudokuBoard);
  */
 void SudokuChecker_mapBoardElement(int col, int row, UArray2_T board, 
                                    void *data, void *cl);
+
+bool sudoku(FILE *sudokuFile) {
+        assert(sudokuFile != NULL);
+        UArray2_T board = SudokuChecker_makeBoard(sudokuFile);
+        if (board == NULL) {
+                return false;
+        }
+        
+        bool check = SudokuChecker_checkSudoku(board);
+        UArray2_free(&board);
+        return check;
+}
 
 UArray2_T SudokuChecker_makeBoard(FILE* sudokuFile) {
         Pnmrdr_T       reader   = Pnmrdr_new(sudokuFile);

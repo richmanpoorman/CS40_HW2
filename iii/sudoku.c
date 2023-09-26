@@ -12,27 +12,6 @@
 #include <stdbool.h>
 #include "sudokuChecker.h"
 
-/* 
- *  Name:      : sudoku
- *  Purpose    : Check if the given PGM file is a valid sudoku board
- *  Parameters : (FILE *) The PGM file with the sudoku board to check
- *  Return     : (bool) True if the board is a valid sudoku board, 
- *                      False otherwise
- *  Notes      : Will CRE if no file is given;
- *               Will CRE if the file is not a graymap PGM;
- *                Will CRE if memory can't be allocated
- */
-bool sudoku(FILE *sudokuFile) {
-        assert(sudokuFile != NULL);
-        UArray2_T board = SudokuChecker_makeBoard(sudokuFile);
-        if (board == NULL) {
-                return false;
-        }
-        
-        bool check = SudokuChecker_checkSudoku(board);
-        UArray2_free(&board);
-        return check;
-}
 
 int main(int argc, char *argv[]) {
         assert(argc < 3);
@@ -43,13 +22,13 @@ int main(int argc, char *argv[]) {
                 assert(inputFile != NULL);
         }
 
-        bool sudokuResult = sudoku(inputFile);
+        bool isValidSudoku = sudoku(inputFile);
 
         if (argc == 2) {
                 fclose(inputFile);
         }
 
-        if (sudokuResult) {
+        if (isValidSudoku) {
                 exit(EXIT_SUCCESS);
         }
         else {

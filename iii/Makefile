@@ -66,6 +66,9 @@ my_useuarray2: useuarray2.o uarray2.o
 my_usebit2: usebit2.o bit2.o
 	$(CC) $(LDFLAGS) $^ -o $@ $(LDLIBS)
 
+test: test.o uarray2.o bit2.o Point.o \
+	removeBlackEdges.o sudokuChecker.o
+	$(CC) $(LDFLAGS) $^ -o $@ $(LDLIBS)
 
 clean:
 	rm -f sudoku unblackedges my_useuarray2 my_usebit2 *.o

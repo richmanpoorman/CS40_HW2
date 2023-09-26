@@ -15,6 +15,20 @@
 #include <pnmrdr.h>
 
 /* 
+ *  Name:      : unblackedges
+ *  Purpose    : Remove the black edges of the given file
+ *  Parameters : (FILE *) The PGM file with the original image;
+ *               (FILE *) The output file to write to
+ *  Return     : None
+ *  Notes      : Will CRE if no file is given;
+ *               Will CRE if the file is not a PBM;
+ *               Will CRE if there is a memory issue;
+ *               Will CRE if couldn't make the bitmap;
+ *               Will CRE if memory can't be allocated
+ */
+void unblackedges(FILE *bitmapFile, FILE *outputFile);
+
+/* 
  *  Name:      : RemoveBlackEdges_makeBitmap
  *  Purpose    : Turns the given PBM file bitmap into an Bit2_T bitmap
  *  Parameters : (FILE *) The opened file with the bitmap
@@ -42,7 +56,7 @@ void RemoveBlackEdges_removeEdges(Bit2_T bitmap);
  *  Return     : None
  *  Notes      : Assumes the outputFile is open, and the bitmap is processed
  */
-void RemoveBlackEdges_writeBitmap(FILE *outputFile, Bit2_T bitmap);
+void RemoveBlackEdges_printBitmap(FILE *outputFile, Bit2_T bitmap);
 
 /* 
  *  Name:      : RemoveBlackEdges_mapBitElement
@@ -91,6 +105,20 @@ void RemoveBlackEdges_mapBitToFile(int col, int row, Bit2_T bitmap,
                                    int data, void *cl);
 
 /* Implementation */
+void unblackedges(FILE *bitmapFile, FILE *outputFile) {
+        assert(bitmapFile != NULL);
+        Bit2_T bitmap = RemoveBlackEdges_makeBitmap(bitmapFile);
+        assert(bitmap != NULL);
+
+        RemoveBlackEdges_removeEdges(bitmap);
+        assert(bitmap != NULL);
+
+        RemoveBlackEdges_printBitmap(outputFile, bitmap);
+
+        Bit2_free(&bitmap);
+
+}
+
 Bit2_T RemoveBlackEdges_makeBitmap(FILE* bitmapFile) {
         Pnmrdr_T       reader   = Pnmrdr_new(bitmapFile);
         Pnmrdr_mapdata data     = Pnmrdr_data(reader);
@@ -99,7 +127,7 @@ Bit2_T RemoveBlackEdges_makeBitmap(FILE* bitmapFile) {
         int            width    = data.width;
         int            height   = data.height;
         assert(fileType == Pnmrdr_bit);
-        assert(width != 0 && height != 0);
+        assert(width > 0 && height > 0);
 
         Bit2_T bitmap = Bit2_new(width, height);
         Bit2_map_row_major(bitmap, RemoveBlackEdges_mapBitElement, 
@@ -133,7 +161,7 @@ void RemoveBlackEdges_removeEdges(Bit2_T bitmap) {
         }
 }
 
-void RemoveBlackEdges_writeBitmap(FILE *outputFile, Bit2_T bitmap) {
+void RemoveBlackEdges_printBitmap(FILE *outputFile, Bit2_T bitmap) {
         assert(outputFile != NULL);
         assert(bitmap != NULL);
         int width  = Bit2_width(bitmap);

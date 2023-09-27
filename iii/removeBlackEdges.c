@@ -186,19 +186,37 @@ void RemoveBlackEdges_mapBitElement(int col, int row, Bit2_T bitmap,
 void RemoveBlackEdges_dfs(Bit2_T bitmap, int col, int row) {
         int width = Bit2_width(bitmap);
         int height = Bit2_height(bitmap);
-
+        
+        /* 
+         *  Using a Hanson sequence to run depth-first search 
+         *  in order to clear out the adjacent black pixels to the 
+         *  starting pixel; assumes that the starting pixel is black
+         */
+        assert(Bit2_get(bitmap, col, row) == 1);
         Seq_T dfs  = Seq_new(width + height);
 
+        /* Adds the starting pixel to do, as well as clearing it out */
         Seq_addhi(dfs, Point_new(col, row));
         Bit2_put(bitmap, col, row, 0);
 
+        /* 
+         *  Assumes that the all the points in the queue have already been
+         *  turned white, and is only on the queue to check if the adjacent
+         *  pixels need to be cleaned out as well; the reason it is like this
+         *  is so that the same pixel is not put on the queue twice, as 
+         *  it will have been cleaned the first time it goes on the queue
+         *  and will never have to go on the queue again
+         */
         while (Seq_length(dfs) > 0) {
                 Point curr = Seq_remhi(dfs);
                 Point_get(curr, &col, &row);
                 Point_free(&curr);
 
-                /* Write the current element to 0 */
-
+                /* 
+                 *  Goes to each valid square that is adjacent and checks 
+                 *  if a) the square is on the board and b) that it is black
+                 *  before turning the pixel white and putting it on the queue
+                 */
                 if (col > 0 && Bit2_get(bitmap, col - 1, row) == 1) {
                         Bit2_put(bitmap, col - 1, row, 0);
                         Seq_addhi(dfs, Point_new(col - 1, row));
@@ -221,6 +239,10 @@ void RemoveBlackEdges_dfs(Bit2_T bitmap, int col, int row) {
                 
         }
 
+        /* 
+         *  We are done with the dfs, and since the queue is empty,
+         *  we only need to free the sequence
+         */
         Seq_free(&dfs);
 
 }
@@ -231,6 +253,7 @@ void RemoveBlackEdges_mapBitToFile(int col, int row, Bit2_T bitmap,
         FILE *outputFile = cl;
 
         fprintf(outputFile, "%i ", data);
+        /* Put a new-line at the end of each line for readability sake */
         if (col == width - 1) {
                 fprintf(outputFile, "\n");
         }

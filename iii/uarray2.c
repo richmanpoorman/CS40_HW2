@@ -178,8 +178,6 @@ UArray2_T UArray2_new(int width, int height, int size) {
         UArray2_T new2DArray = ALLOC(sizeof(*new2DArray));
         UArray_T  data       = UArray_new(width * height, size);
 
-        assert(new2DArray != NULL);
-
         new2DArray -> width  = width;
         new2DArray -> height = height;
         new2DArray -> size   = size; 

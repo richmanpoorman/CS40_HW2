@@ -1,7 +1,21 @@
 cs40 hw02 iii
 Ivi Fung (sfung02) and Matthew Wong (mwong14)
-References: Lexi
+References: Lexi, Andrew Fisher
 No leaks or errors. To our knowledge, we have implemented everything in the
 spec fully.
 Files: 
+        README
+        Makefile
+        uarray2.h
+        uarray2.c
+        bit2.h
+        bit2.c
+        sudoku.c
+        unblackedges.c
+        removeBlackEdges.h
+        removeBlackEdges.c
+        sudokuChecker.c
+        sudokuChecker.h
+        Point.h
+        Point.c
 Time: 12h 30m

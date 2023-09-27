@@ -176,8 +176,6 @@ Bit2_T Bit2_new(int width, int height) {
         Bit2_T new2DArray = ALLOC(sizeof(*new2DArray));
         Bit_T  data       = Bit_new(width * height);
 
-        assert(new2DArray != NULL);
-
         new2DArray -> width  = width;
         new2DArray -> height = height;
         new2DArray -> data   = data; 
@@ -203,7 +201,7 @@ int Bit2_get(Bit2_T bit2, int col, int row) {
 int Bit2_put(Bit2_T bit2, int col, int row, int data) {
         assert(bit2 != NULL);
         assert(Bit2_isInBounds(bit2, col, row));
-        assert(data == 0 or data == 1)
+        assert(data == 0 || data == 1)
         return Bit_put(bit2 -> data, Bit2_getKey(bit2, col, row), data);
 }
 

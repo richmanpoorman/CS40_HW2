@@ -2,7 +2,8 @@ cs40 hw02 iii
 Ivi Fung (sfung02) and Matthew Wong (mwong14)
 References: Lexi, Andrew Fisher
 No leaks or errors. To our knowledge, we have implemented everything in the
-spec fully.
+spec fully. We were told to not worry about the P1's 70 character line limit,
+as that is "an artifact of old email systems and their limited data storage."
 Files: 
         README
         Makefile
@@ -18,4 +19,4 @@ Files:
         sudokuChecker.h
         Point.h
         Point.c
-Time: 12h 30m
+Time: 15h 30m

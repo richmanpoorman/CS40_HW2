@@ -201,7 +201,7 @@ int Bit2_get(Bit2_T bit2, int col, int row) {
 int Bit2_put(Bit2_T bit2, int col, int row, int data) {
         assert(bit2 != NULL);
         assert(Bit2_isInBounds(bit2, col, row));
-        assert(data == 0 || data == 1)
+        assert(data == 0 || data == 1);
         return Bit_put(bit2 -> data, Bit2_getKey(bit2, col, row), data);
 }
 

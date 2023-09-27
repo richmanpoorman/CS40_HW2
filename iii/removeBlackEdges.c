@@ -140,6 +140,11 @@ Bit2_T RemoveBlackEdges_makeBitmap(FILE* bitmapFile) {
 void RemoveBlackEdges_removeEdges(Bit2_T bitmap) {
         int width  = Bit2_width(bitmap);
         int height = Bit2_height(bitmap);
+        
+        /*
+         *  Check the top and bottom edges of the image for black edges
+         *  and remove them when seen 
+         */
         for (int col = 0; col < width; col++) {
                 if (Bit2_get(bitmap, col, 0) == 1) {
                         RemoveBlackEdges_dfs(bitmap, col, 0);
@@ -150,6 +155,10 @@ void RemoveBlackEdges_removeEdges(Bit2_T bitmap) {
                 }
         }
 
+        /*
+         *  Check the left and right edges of the image for black edges
+         *  and remove them when seen 
+         */
         for (int row = 0; row < height; row++) {
                 if (Bit2_get(bitmap, 0, row) == 1) {
                         RemoveBlackEdges_dfs(bitmap, 0, row);

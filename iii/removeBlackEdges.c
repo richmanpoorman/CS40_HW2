@@ -50,8 +50,8 @@ Bit2_T RemoveBlackEdges_makeBitmap(FILE* bitmapFile);
 void RemoveBlackEdges_removeEdges(Bit2_T bitmap);
 
 /* 
- *  Name:      : RemoveBlackEdges_writeBitMap
- *  Purpose    : Writes the given bitmap to the given output file
+ *  Name:      : RemoveBlackEdges_printBitmap
+ *  Purpose    : Writes/prints the given bitmap to the given output file
  *  Parameters : (Bit2_T) The bitmap in a Bit2_T before processing 
  *  Return     : None
  *  Notes      : Assumes the outputFile is open, and the bitmap is processed

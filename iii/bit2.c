@@ -158,18 +158,21 @@ void Bit2_map_row_major(Bit2_T bit2,
 
 
 /* Implementations */
-int Bit2_getKey(Bit2_T bit2, int col, int row) {
+int Bit2_getKey(Bit2_T bit2, int col, int row) 
+{
         assert(bit2 != NULL);
         return row * Bit2_width(bit2) + col; 
 }
 
-bool Bit2_isInBounds(Bit2_T bit2, int col, int row) {
+bool Bit2_isInBounds(Bit2_T bit2, int col, int row)
+{
         assert(bit2 != NULL);
         return row >= 0 && col >= 0 && 
                row < Bit2_height(bit2) && col < Bit2_width(bit2);
 }
 
-Bit2_T Bit2_new(int width, int height) {
+Bit2_T Bit2_new(int width, int height) 
+{
         assert(width >= 0);
         assert(height >= 0);
 
@@ -183,7 +186,8 @@ Bit2_T Bit2_new(int width, int height) {
         return new2DArray;
 }
 
-void Bit2_free(Bit2_T *bit2Pointer) {
+void Bit2_free(Bit2_T *bit2Pointer) 
+{
         assert(bit2Pointer  != NULL);
         assert(*bit2Pointer != NULL);
 
@@ -192,32 +196,37 @@ void Bit2_free(Bit2_T *bit2Pointer) {
         *bit2Pointer = NULL;
 }
 
-int Bit2_get(Bit2_T bit2, int col, int row) {
+int Bit2_get(Bit2_T bit2, int col, int row) 
+{
         assert(bit2 != NULL);
         assert(Bit2_isInBounds(bit2, col, row));
         return Bit_get(bit2 -> data, Bit2_getKey(bit2, col, row));
 }
 
-int Bit2_put(Bit2_T bit2, int col, int row, int data) {
+int Bit2_put(Bit2_T bit2, int col, int row, int data) 
+{
         assert(bit2 != NULL);
         assert(Bit2_isInBounds(bit2, col, row));
         assert(data == 0 || data == 1);
         return Bit_put(bit2 -> data, Bit2_getKey(bit2, col, row), data);
 }
 
-int Bit2_width(Bit2_T bit2) {
+int Bit2_width(Bit2_T bit2) 
+{
         assert(bit2 != NULL);
         return bit2 -> width;
 }
 
-int Bit2_height(Bit2_T bit2) {
+int Bit2_height(Bit2_T bit2) 
+{
         assert(bit2 != NULL);
         return bit2 -> height;
 }
 
 void Bit2_map_col_major(Bit2_T bit2, 
                         void (*apply)(int, int, Bit2_T, int, void *), 
-                        void *cl) {
+                        void *cl) 
+{
         assert(bit2 != NULL);
         int height = Bit2_height(bit2);
         int width  = Bit2_width(bit2);
@@ -232,7 +241,8 @@ void Bit2_map_col_major(Bit2_T bit2,
 
 void Bit2_map_row_major(Bit2_T bit2, 
                         void (*apply)(int, int, Bit2_T, int, void *), 
-                        void *cl) {
+                        void *cl) 
+{
         assert(bit2 != NULL);
         int height = Bit2_height(bit2);
         int width  = Bit2_width(bit2);

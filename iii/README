@@ -2,8 +2,19 @@ cs40 hw02 iii
 Ivi Fung (sfung02) and Matthew Wong (mwong14)
 References: Lexi, Andrew Fisher
 No leaks or errors. To our knowledge, we have implemented everything in the
-spec fully. We were told to not worry about the P1's 70 character line limit,
+spec fully. 
+
+We were told to not worry about the P1's 70 character line limit,
 as that is "an artifact of old email systems and their limited data storage."
+
+In the sudoku checker, we considered using the row mapping function of 
+UArray2_T, but decided not to do it, as we would need to add a new struct
+to package up the array mappings, create a new function for apply, 
+and have to make a way to keep track if everything is in bounds 
+with flags. These added complications (as we also would have to do memory
+management with the struct vs just having heap allocated arrays) would 
+make the program much harder to read and debug, so we just stuck to using
+the two for loops.
 Files: 
         README
         Makefile

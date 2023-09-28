@@ -55,7 +55,8 @@ void Point_get(Point point, int *col, int *row);
  */
 void Point_free(Point *point);
 
-Point Point_new(int col, int row) {
+Point Point_new(int col, int row) 
+{
         Point point = ALLOC(sizeof(*point));
         assert(point != NULL);
         point -> col = col;
@@ -63,7 +64,8 @@ Point Point_new(int col, int row) {
         return point;
 }
 
-void Point_get(Point point, int *col, int *row) {
+void Point_get(Point point, int *col, int *row) 
+{
         assert(point != NULL);
         assert(col != NULL);
         assert(row != NULL);
@@ -71,7 +73,8 @@ void Point_get(Point point, int *col, int *row) {
         *row = point -> row;
 }
 
-void Point_free(Point *point) {
+void Point_free(Point *point) 
+{
         assert(point != NULL);
         assert(*point != NULL);
         FREE(*point);

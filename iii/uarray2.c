@@ -159,18 +159,21 @@ void UArray2_map_row_major(UArray2_T uArray2,
                            void *cl);
 
 /* Implementation */
-int UArray2_getKey(UArray2_T uArray2, int col, int row) {
+int UArray2_getKey(UArray2_T uArray2, int col, int row) 
+{
         assert(uArray2 != NULL);
         return row * UArray2_width(uArray2) + col; 
 }
 
-bool UArray2_isInBounds(UArray2_T uArray2, int col, int row) {
+bool UArray2_isInBounds(UArray2_T uArray2, int col, int row) 
+{
         assert(uArray2 != NULL);
         return row >= 0 && col >= 0 && 
                row < UArray2_height(uArray2) && col < UArray2_width(uArray2);
 }
 
-UArray2_T UArray2_new(int width, int height, int size) {
+UArray2_T UArray2_new(int width, int height, int size) 
+{
         assert(width >= 0);
         assert(height >= 0);
         assert(size > 0);
@@ -186,7 +189,8 @@ UArray2_T UArray2_new(int width, int height, int size) {
         return new2DArray;
 }
 
-void UArray2_free(UArray2_T *uArray2Pointer) {
+void UArray2_free(UArray2_T *uArray2Pointer) 
+{
         assert(uArray2Pointer  != NULL);
         assert(*uArray2Pointer != NULL);
 
@@ -195,31 +199,36 @@ void UArray2_free(UArray2_T *uArray2Pointer) {
         *uArray2Pointer = NULL;
 }
 
-void *UArray2_at(UArray2_T uArray2, int col, int row) {
+void *UArray2_at(UArray2_T uArray2, int col, int row) 
+{
         assert(uArray2 != NULL);
         assert(UArray2_isInBounds(uArray2, col, row));
 
         return UArray_at(uArray2 -> data, UArray2_getKey(uArray2, col, row));
 }
 
-int UArray2_width(UArray2_T uArray2) {
+int UArray2_width(UArray2_T uArray2) 
+{
         assert(uArray2 != NULL);
         return uArray2 -> width;
 }
 
-int UArray2_height(UArray2_T uArray2) {
+int UArray2_height(UArray2_T uArray2) 
+{
         assert(uArray2 != NULL);
         return uArray2 -> height;
 }
 
-int UArray2_size(UArray2_T uArray2) {
+int UArray2_size(UArray2_T uArray2) 
+{
         assert(uArray2 != NULL);
         return uArray2 -> size;
 }
 
 void UArray2_map_col_major(UArray2_T uArray2, 
                            void (*apply)(int, int, UArray2_T, void *, void *), 
-                           void *cl) {
+                           void *cl) 
+{
         assert(uArray2 != NULL);
         int height = UArray2_height(uArray2);
         int width  = UArray2_width(uArray2);
@@ -234,7 +243,8 @@ void UArray2_map_col_major(UArray2_T uArray2,
 
 void UArray2_map_row_major(UArray2_T uArray2, 
                            void (*apply)(int, int, UArray2_T, void *, void *), 
-                           void *cl) {
+                           void *cl) 
+{
         assert(uArray2 != NULL);
         int height = UArray2_height(uArray2);
         int width  = UArray2_width(uArray2);

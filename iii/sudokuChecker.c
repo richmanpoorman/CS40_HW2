@@ -61,7 +61,8 @@ bool SudokuChecker_checkSudoku(UArray2_T sudokuBoard);
 void SudokuChecker_mapBoardElement(int col, int row, UArray2_T board, 
                                    void *data, void *cl);
 
-bool sudoku(FILE *sudokuFile) {
+bool sudoku(FILE *sudokuFile) 
+{
         assert(sudokuFile != NULL);
         UArray2_T board = SudokuChecker_makeBoard(sudokuFile);
         if (board == NULL) {
@@ -73,7 +74,8 @@ bool sudoku(FILE *sudokuFile) {
         return check;
 }
 
-UArray2_T SudokuChecker_makeBoard(FILE* sudokuFile) {
+UArray2_T SudokuChecker_makeBoard(FILE* sudokuFile) 
+{
         Pnmrdr_T       reader   = Pnmrdr_new(sudokuFile);
         Pnmrdr_mapdata data     = Pnmrdr_data(reader);
 
@@ -93,7 +95,8 @@ UArray2_T SudokuChecker_makeBoard(FILE* sudokuFile) {
         return board;
 }
 
-bool SudokuChecker_checkSudoku(UArray2_T sudokuBoard) {
+bool SudokuChecker_checkSudoku(UArray2_T sudokuBoard) 
+{
         /* 
          *  There are 9 different rows, columns, and boxes
          *  This is the initialization for the "sets" for each
@@ -155,7 +158,8 @@ bool SudokuChecker_checkSudoku(UArray2_T sudokuBoard) {
 }
 
 void SudokuChecker_mapBoardElement(int col, int row, UArray2_T board, 
-                                   void *data, void *cl) {
+                                   void *data, void *cl) 
+{
         Pnmrdr_T      reader       = cl;
         unsigned int *valuePointer = UArray2_at(board, col, row);
         unsigned int  nextSquare   = Pnmrdr_get(reader);

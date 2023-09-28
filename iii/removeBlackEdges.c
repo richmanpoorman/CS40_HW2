@@ -105,7 +105,8 @@ void RemoveBlackEdges_mapBitToFile(int col, int row, Bit2_T bitmap,
                                    int data, void *cl);
 
 /* Implementation */
-void unblackedges(FILE *bitmapFile, FILE *outputFile) {
+void unblackedges(FILE *bitmapFile, FILE *outputFile) 
+{
         assert(bitmapFile != NULL);
         Bit2_T bitmap = RemoveBlackEdges_makeBitmap(bitmapFile);
         assert(bitmap != NULL);
@@ -119,7 +120,8 @@ void unblackedges(FILE *bitmapFile, FILE *outputFile) {
 
 }
 
-Bit2_T RemoveBlackEdges_makeBitmap(FILE* bitmapFile) {
+Bit2_T RemoveBlackEdges_makeBitmap(FILE* bitmapFile) 
+{
         Pnmrdr_T       reader   = Pnmrdr_new(bitmapFile);
         Pnmrdr_mapdata data     = Pnmrdr_data(reader);
 
@@ -137,7 +139,8 @@ Bit2_T RemoveBlackEdges_makeBitmap(FILE* bitmapFile) {
         return bitmap;
 }
 
-void RemoveBlackEdges_removeEdges(Bit2_T bitmap) {
+void RemoveBlackEdges_removeEdges(Bit2_T bitmap) 
+{
         int width  = Bit2_width(bitmap);
         int height = Bit2_height(bitmap);
         
@@ -170,7 +173,8 @@ void RemoveBlackEdges_removeEdges(Bit2_T bitmap) {
         }
 }
 
-void RemoveBlackEdges_printBitmap(FILE *outputFile, Bit2_T bitmap) {
+void RemoveBlackEdges_printBitmap(FILE *outputFile, Bit2_T bitmap) 
+{
         assert(outputFile != NULL);
         assert(bitmap != NULL);
         int width  = Bit2_width(bitmap);
@@ -182,7 +186,8 @@ void RemoveBlackEdges_printBitmap(FILE *outputFile, Bit2_T bitmap) {
 }
 
 void RemoveBlackEdges_mapBitElement(int col, int row, Bit2_T bitmap, 
-                                      int data, void *cl) {
+                                      int data, void *cl) 
+{
         Pnmrdr_T     reader  = cl;
         unsigned int nextBit = Pnmrdr_get(reader);
 
@@ -192,7 +197,8 @@ void RemoveBlackEdges_mapBitElement(int col, int row, Bit2_T bitmap,
         (void) data;
 }
 
-void RemoveBlackEdges_dfs(Bit2_T bitmap, int col, int row) {
+void RemoveBlackEdges_dfs(Bit2_T bitmap, int col, int row) 
+{
         int width = Bit2_width(bitmap);
         int height = Bit2_height(bitmap);
         
@@ -257,7 +263,8 @@ void RemoveBlackEdges_dfs(Bit2_T bitmap, int col, int row) {
 }
 
 void RemoveBlackEdges_mapBitToFile(int col, int row, Bit2_T bitmap, 
-                                   int data, void *cl) {
+                                   int data, void *cl) 
+{
         int width        = Bit2_width(bitmap);
         FILE *outputFile = cl;
 

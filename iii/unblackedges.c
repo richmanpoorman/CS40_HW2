@@ -12,7 +12,8 @@
 #include "removeBlackEdges.h"
 #include "bit2.h"
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) 
+{
         assert(argc < 3);
         
         FILE *inputFile = stdin;

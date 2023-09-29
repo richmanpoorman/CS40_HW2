@@ -273,11 +273,19 @@ void RemoveBlackEdges_mapBitToFile(int col, int row, Bit2_T bitmap,
                                    int data, void *cl) 
 {
         int width        = Bit2_width(bitmap);
+        /* 
+         * Number of information characters per line; 
+         * Wanted to be slightly less than the pbm requirement of 70 
+         * and each character comes with a space and each line 
+         * ends in an end-line character,
+         * so 34 information characters to print gives a size less than 70
+         */
+        int columnWrap   = 34;  
         FILE *outputFile = cl;
 
         fprintf(outputFile, "%i ", data);
         /* Put a new-line at the end of each line for readability sake */
-        if (col == width - 1) {
+        if (col == width - 1 || col % columnWrap == columnWrap - 1) {
                 fprintf(outputFile, "\n");
         }
 

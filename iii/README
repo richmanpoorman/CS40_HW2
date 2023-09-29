@@ -6,6 +6,8 @@ spec fully.
 
 We were told to not worry about the P1's 70 character line limit,
 as that is "an artifact of old email systems and their limited data storage."
+However, we updated the file printer to make sure that it can go below
+that threshold by keeping the character count at 68.
 
 In the sudoku checker, we considered using the row mapping function of 
 UArray2_T, but decided not to do it, as we would need to add a new struct
@@ -34,4 +36,4 @@ Files:
         sudokuChecker.h
         Point.h
         Point.c
-Time: 21h 30m
+Time: 22h 30m

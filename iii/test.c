@@ -4,10 +4,12 @@
 #include <assert.h>
 #include <stdbool.h>
 #include <pnmrdr.h>
+#include <mem.h>
 #include "bit2.h"
 #include "uarray2.h"
 #include "removeBlackEdges.h"
 #include "sudokuChecker.h"
+#include "Point.h"
 
 /* Functions in the other files */
 
@@ -27,7 +29,9 @@ void printBoardUArray2(int col, int row, UArray2_T board,
 {
         FILE         *outputFile = cl;
         unsigned int *val        = data;
-        fprintf(outputFile, "%i ", *val);
+        fprintf(outputFile, "%c ", *val);
+        /* (void) val; */
+        /* (void) cl; */
         if (col == UArray2_width(board) - 1) {
                 fprintf(outputFile, "\n");
         }
@@ -119,7 +123,8 @@ void boolUArray2Test(FILE *input, FILE *output)
         (void) input;
 }
 
-void wrongInputTest(FILE *input, FILE *output) { 
+void wrongInputTest(FILE *input, FILE *output) 
+{ 
         UArray2_T wrongInput = UArray2_new(10, 10, sizeof(char));
         int *value = UArray2_at(wrongInput, 9, 9);
         *value = 50;
@@ -128,35 +133,141 @@ void wrongInputTest(FILE *input, FILE *output) {
         fprintf(output, "\n");
         (void) input;
 }
-void creTests(FILE *input, FILE *output) {
 
-        fprintf(output, "\n");
-        (void) input;
-}
 
-void freeTest(FILE *input, FILE *output) {
+void freeTest(FILE *input, FILE *output) 
+{
         UArray2_T board = UArray2_new(1, 1, 1);
         
         if (board != NULL) {
                 fprintf(output, "Not null before free\n");
         }
-
+        assert(board != NULL);
         UArray2_free(&board);
         
         if (board == NULL) {
                 fprintf(output, "Free is now null\n");
         }
         fprintf(output, "\n");
+        assert(board == NULL);
         (void) input;
 }
+void readmeUArry2Test(FILE *input, FILE *output) 
+{
+        FILE *readme = fopen("README", "r");
+        pnmUArray2Test(readme, output);
+        fclose(readme);
+        fprintf(output, "\n");
+        (void) input;
+}
+void stringUArray2Test(FILE *input, FILE *output) 
+{
+        UArray2_T stringTest = UArray2_new(1, 2, sizeof(char *));
+        char **stringA = UArray2_at(stringTest, 0, 0);
+        char **stringB = UArray2_at(stringTest, 0, 1);
+        *stringA = "This is a stack string";
+        *stringB = ALLOC(2);
+        *stringB[0] = 'a';
+        *stringB[1] = 'b';
+        printBoard(stringTest, output);
+        /* FREE(stringB); */
+        /* printBoard(stringTest, output); */
+        UArray2_free(&stringTest);
+        fprintf(output, "\n");
+        (void) input;
+}
+void singleCharStringUArray2Test(FILE *input, FILE *output) 
+{
+        UArray2_T stringTest = UArray2_new(1, 2, sizeof(char *));
+        char **stringA = UArray2_at(stringTest, 0, 0);
+        char **stringB = UArray2_at(stringTest, 0, 1);
+        *stringA = ALLOC(1);
+        *stringA[0] = 'a';
+        *stringB = "b";
+        
+        printBoard(stringTest, output);
+        FREE(*stringA);
+        printBoard(stringTest, output);
+        UArray2_free(&stringTest);
+        fprintf(output, "\n");
+        (void) input;
+}
+void charUArray2Test(FILE *input, FILE *output) 
+{
+        UArray2_T charTest = UArray2_new(2, 2, sizeof(char));
+        for (int c = 0; c < 2; c++) {
+                for (int r = 0; r < 2; r++) {
+                        char *a = UArray2_at(charTest, c, r);
+                        *a = (char)(r + c + 'a');
+                }
+        }
+        printBoard(charTest, output);
+        fprintf(output, "\n");
+        UArray2_free(&charTest);
+        (void) input;
+        
+}
+void pointFree(int col, int row, UArray2_T board, 
+               void *data, void *cl) 
+{
+        Point_free(data);
+        (void) col;
+        (void) row;
+        (void) cl;
+        (void) board;
+}
 
+void structUArray2Test(FILE *input, FILE *output) 
+{
+        UArray2_T structTest = UArray2_new(2, 3, sizeof(Point));
+        for (int c = 0; c < 2; c++) {
+                for (int r = 0; r < 3; r++) {
+                        Point *a = UArray2_at(structTest, c, r);
+                        *a = Point_new(c, r);
+                }
+        }
+        printBoard(structTest, output);
+        UArray2_map_col_major(structTest, pointFree, NULL);
+        fprintf(output, "\n");
+        UArray2_free(&structTest);
+        (void) input;
+}
+void creTests(FILE *input, FILE *output) 
+{
+        UArray2_T badUArray = UArray2_new(1, 1, 1);
+        /* UArray2_at(badUArray, 0, 1); */
+        /* UArray2_at(badUArray, 1, 0); */
+        /* UArray2_at(NULL, 0, 0); */
+
+        /* UArray2_T startBadArray = UArray2_new(-1, 0, 1);
+        (void) startBadArray; */
+        /* UArray2_T startBadArray2 = UArray2_new(0, -1, 1);
+        (void) startBadArray2; */
+        /* UArray2_T startBadArray3 = UArray2_new(0, 0, -1);
+        (void) startBadArray3; */
+        /* UArray2_free(NULL); */
+        /* UArray2_T nullInside = NULL;
+        UArray2_free(&nullInside); */
+        fprintf(output, "\n");
+        
+        
+        
+        (void) badUArray;
+        (void) input;
+}
 void uarray2Tests(FILE *input, FILE *output) 
 {
         longLongUArray2Test(input, output);
         zeroUArray2Test(input, output);
         boolUArray2Test(input, output);
         wrongInputTest(input, output);
+        /* readmeUArry2Test(input, output); */
         freeTest(input, output);
+        /* stringUArray2Test(input, output); */
+        singleCharStringUArray2Test(input, output);
+        charUArray2Test(input, output);
+        structUArray2Test(input, output);
+        creTests(input, output);
         /* pnmUArray2Test(input, output); */
         
 }
@@ -198,6 +309,11 @@ void printBoardBit2(int col, int row, Bit2_T bitmap,
         (void) row;
 }
 
+void printBit2(FILE *output, Bit2_T bitmap) 
+{
+        Bit2_map_row_major(bitmap, printBoardBit2, output);
+}
+
 void bit2Tests(FILE *input, FILE *output) 
 {
         Bit2_T pnmTest = bit2Pnmrdr(input);
@@ -224,9 +340,9 @@ void sudokuTests(FILE *input, FILE *output)
 
 void test(FILE *input, FILE *output) 
 {
-        /* uarray2Tests(input, output); */
+        uarray2Tests(input, output);
         /* bit2Tests(input, output); */
-        sudokuTests(input, output);
+        /* sudokuTests(input, output); */
         /* unblackedgesTest(input, output); */
 }
 

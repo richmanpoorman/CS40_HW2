@@ -86,6 +86,7 @@ UArray2_T SudokuChecker_makeBoard(FILE* sudokuFile)
         assert(fileType == Pnmrdr_gray);
         
         if (maxSize != 9 || width != 9 || height != 9) {
+                Pnmrdr_free(&reader);
                 return NULL;
         }
         UArray2_T board = UArray2_new(width, height, sizeof(unsigned int));

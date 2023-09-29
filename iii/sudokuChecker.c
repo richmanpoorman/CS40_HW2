@@ -32,6 +32,7 @@ bool sudoku(FILE *sudokuFile);
  *               If max value isn't 9 or the PGM size is not (9, 9)
  *                      it will return NULL;
  *               Client needs to free the UArray2_T and close the file
+ *               Will CRE if the file is null
  */
 UArray2_T SudokuChecker_makeBoard(FILE* sudokuFile);
 
@@ -41,6 +42,7 @@ UArray2_T SudokuChecker_makeBoard(FILE* sudokuFile);
  *  Parameters : (UArray2_T) The sudoku board as a 2D array
  *  Return     : (bool) True if the sudoku board is valid, false otherwise
  *  Notes      : Assumes that the 2D array given is a 9 x 9 with max value 9
+ *               Will CRE if the file is null
  */
 bool SudokuChecker_checkSudoku(UArray2_T sudokuBoard);
 
@@ -76,6 +78,7 @@ bool sudoku(FILE *sudokuFile)
 
 UArray2_T SudokuChecker_makeBoard(FILE* sudokuFile) 
 {
+        assert(sudokuFile != NULL);
         Pnmrdr_T       reader   = Pnmrdr_new(sudokuFile);
         Pnmrdr_mapdata data     = Pnmrdr_data(reader);
 
@@ -98,6 +101,7 @@ UArray2_T SudokuChecker_makeBoard(FILE* sudokuFile)
 
 bool SudokuChecker_checkSudoku(UArray2_T sudokuBoard) 
 {
+        assert(sudokuBoard != NULL);
         /* 
          *  There are 9 different rows, columns, and boxes
          *  This is the initialization for the "sets" for each

@@ -58,7 +58,6 @@ void Point_free(Point *point);
 Point Point_new(int col, int row) 
 {
         Point point = ALLOC(sizeof(*point));
-        assert(point != NULL);
         point -> col = col;
         point -> row = row;
         return point;

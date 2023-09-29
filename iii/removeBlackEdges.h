@@ -31,6 +31,7 @@ void unblackedges(FILE *bitmapFile, FILE *outputFile);
  *  Parameters : (FILE *) The opened file with the bitmap
  *  Return     : (Bit2_T) A 2D bitmap with the bitmap
  *  Notes      : Will CRE if it is not a bitmap PBM;
+ *               Will CRE if it can't allocate;
  *               Client needs to free the Bit2_T and close the file
  */
 Bit2_T RemoveBlackEdges_makeBitmap(FILE* bitmapFile);
@@ -43,6 +44,7 @@ Bit2_T RemoveBlackEdges_makeBitmap(FILE* bitmapFile);
  *  Parameters : (Bit2_T) The bitmap in a Bit2_T before processing 
  *  Return     : None
  *  Notes      : The bitmap is edited in-place
+ *               Will CRE if the bitmap is null;
  */
 void RemoveBlackEdges_removeEdges(Bit2_T bitmap);
 
@@ -53,6 +55,8 @@ void RemoveBlackEdges_removeEdges(Bit2_T bitmap);
  *  Parameters : (Bit2_T) The bitmap in a Bit2_T before processing 
  *  Return     : None
  *  Notes      : Assumes the outputFile is open, and the bitmap is processed
+ *               Will CRE if no bitmap given;
+ *               Will CRE if no file is given;
  */
 void RemoveBlackEdges_printBitmap(FILE *outputFile, Bit2_T bitmap);
 

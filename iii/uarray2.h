@@ -99,6 +99,8 @@ int UArray2_size(UArray2_T uArray2);
  *               (void *) The pointer to the accumulator in its initial state
  *  Return     : None
  *  Notes      : This is a mapping function
+ *               CRE if bit2 is null;
+ *               CRE if apply is null;
  */
 void UArray2_map_col_major(UArray2_T uArray2, 
                            void (*apply)(int, int, UArray2_T, void *, void *), 
@@ -118,6 +120,8 @@ void UArray2_map_col_major(UArray2_T uArray2,
  *               (void *) The pointer to the accumulator in its initial state
  *  Return     : None
  *  Notes      : This is a mapping function
+ *               CRE if bit2 is null;
+ *               CRE if apply is null;
  */
 void UArray2_map_row_major(UArray2_T uArray2, 
                            void (*apply)(int, int, UArray2_T, void *, void *), 

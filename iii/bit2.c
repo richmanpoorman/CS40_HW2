@@ -132,6 +132,8 @@ int Bit2_height(Bit2_T bit2);
  *               (void *) The pointer to the accumulator in its initial state
  *  Return     : None
  *  Notes      : This is a mapping function
+ *               CRE if bit2 is null;
+ *               CRE if apply is null;
  */
 void Bit2_map_col_major(Bit2_T bit2, 
                         void (*apply)(int, int, Bit2_T, int, void *), 
@@ -151,6 +153,8 @@ void Bit2_map_col_major(Bit2_T bit2,
  *               (void *) The pointer to the accumulator in its initial state
  *  Return     : None
  *  Notes      : This is a mapping function
+ *               CRE if bit2 is null;
+ *               CRE if apply is null;
  */
 void Bit2_map_row_major(Bit2_T bit2, 
                         void (*apply)(int, int, Bit2_T, int, void *), 
@@ -228,6 +232,7 @@ void Bit2_map_col_major(Bit2_T bit2,
                         void *cl) 
 {
         assert(bit2 != NULL);
+        assert(apply != NULL);
         int height = Bit2_height(bit2);
         int width  = Bit2_width(bit2);
 
@@ -244,6 +249,7 @@ void Bit2_map_row_major(Bit2_T bit2,
                         void *cl) 
 {
         assert(bit2 != NULL);
+        assert(apply != NULL);
         int height = Bit2_height(bit2);
         int width  = Bit2_width(bit2);
 

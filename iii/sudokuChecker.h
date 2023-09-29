@@ -31,6 +31,7 @@ bool sudoku(FILE *sudokuFile);
  *               If max value isn't 9 or the PGM size is not (9, 9)
  *                      it will return NULL;
  *               Client needs to free the UArray2_T and close the file
+ *               Will CRE if the file is null
  */
 UArray2_T SudokuChecker_makeBoard(FILE* sudokuFile);
 
@@ -40,6 +41,7 @@ UArray2_T SudokuChecker_makeBoard(FILE* sudokuFile);
  *  Parameters : (UArray2_T) The sudoku board as a 2D array
  *  Return     : (bool) True if the sudoku board is valid, false otherwise
  *  Notes      : Assumes that the 2D array given is a 9 x 9 with max value 9
+ *               Will CRE if the board is null
  */
 bool SudokuChecker_checkSudoku(UArray2_T sudokuBoard);
 

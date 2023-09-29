@@ -40,7 +40,7 @@ Point Point_new(int col, int row);
  *  Notes      : col and row are where the output of the data is, so
  *               column and row are passed by reference;
  *               Will CRE if the point, col reference, or row reference
- *                      is null
+ *               is null
  */
 void Point_get(Point point, int *col, int *row);
 

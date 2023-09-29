@@ -15,6 +15,10 @@ with flags. These added complications (as we also would have to do memory
 management with the struct vs just having heap allocated arrays) would 
 make the program much harder to read and debug, so we just stuck to using
 the two for loops.
+
+We moved the functions sudoku and unblackedges into their .h file
+so that it can be shared with the testing file for more accurate testing
+less prone to human error. 
 Files: 
         README
         Makefile
